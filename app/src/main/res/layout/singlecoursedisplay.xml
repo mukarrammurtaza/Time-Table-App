@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+
+    <TextView
+        android:id="@+id/courseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="false"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        tools:text="Course Name:"
+        />
+    <TextView
+        android:id="@+id/courseRoom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/courseName"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        tools:text="Room Number:"
+        />
+
+    <TextView
+        android:id="@+id/courseTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/courseRoom"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        tools:text="Time:" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/courseTime"
+        android:layout_marginTop="10dp"
+        android:background="@color/black" />
+</RelativeLayout>
