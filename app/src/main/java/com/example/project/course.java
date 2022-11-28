@@ -6,13 +6,15 @@ public class course {
     int courseId;
     int roomNumber;
     String courseName;
-    Time courseTime;
+    String courseSTime;
+    String courseETime;
 
-    public course(int courseId, int roomNumber, String courseName, Time courseTime) {
+    public course(int courseId, int roomNumber, String courseName, String courseSTime,String courseETime) {
         this.courseId = courseId;
         this.roomNumber = roomNumber;
         this.courseName = courseName;
-        this.courseTime = courseTime;
+        this.courseSTime = courseSTime;
+        this.courseETime = courseETime;
     }
 
     public int getCourseId() {
@@ -39,11 +41,19 @@ public class course {
         this.courseName = courseName;
     }
 
-    public Time getCourseTime() {
-        return courseTime;
+    public String getCourseSTime() {
+        return courseSTime;
     }
 
-    public void setCourseTime(Time courseTime) {
-        this.courseTime = courseTime;
+    public void setCourseSTime(String courseTime) {
+        this.courseSTime = courseSTime;
+    }
+
+    public String getCourseETime() {
+        return courseETime;
+    }
+
+    public void setCourseETime(String courseTime) {
+        this.courseETime = courseETime;
     }
 }

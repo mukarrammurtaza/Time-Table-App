@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     mainActivityAdapter adp;
 //    IProductDAO daoc;
 //    IProductDAO daof;
-    ArrayList<course> courseList;
+    public static ArrayList<course> courseList=new ArrayList<>();
     Logger logger;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context=getApplicationContext();
         logger = Logger.getLogger("MainActivity");
-        courseList=new ArrayList<>();
+
+
+
+
         Button viewTimeTable = (Button) findViewById(R.id.TTButton);
         viewTimeTable.setOnClickListener(new View.OnClickListener()
         {
@@ -38,7 +41,15 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
             }
         });
-
+        Button addCourse = (Button) findViewById(R.id.addCourseButton);
+        addCourse.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+              Intent intent = new Intent(context, addCourseActivity.class);
+                startActivity(intent);
+            }
+        });
         if (courseList.isEmpty()) {
             AddInitialEntriesInDB();
         }
@@ -51,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void AddInitialEntriesInDB() {
         try {
-            courseList.add(new course(1, 400, "Computer Networks",null));
+            courseList.add(new course(1, 400, "Computer Networks","1pm","2pm"));
 
 //            courseList.add(new product(" Badminton Racket", 1000, R.drawable.racket, 10));
 //            courseList.add(new product("Cricket Helmet", 4000, R.drawable.crickethelmet, 10));

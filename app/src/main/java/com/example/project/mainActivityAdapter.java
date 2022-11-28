@@ -45,7 +45,8 @@ public class mainActivityAdapter extends RecyclerView.Adapter<mainActivityAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.courseNameView.setText(courseList.get(position).getCourseName());
         holder.courseRoomView.setText(String.valueOf(courseList.get(position).getRoomNumber()));
-        holder.courseTimeView.setText((CharSequence) courseList.get(position).getCourseTime());
+        holder.courseTimeView.setText( courseList.get(position).getCourseSTime());
+
         holder.getItemView().setOnClickListener(new View.OnClickListener() {
 
                                                     @Override
