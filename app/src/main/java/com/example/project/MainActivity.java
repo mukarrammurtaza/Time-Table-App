@@ -1,68 +1,117 @@
 package com.example.project;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static ArrayList<course> courseList = new ArrayList<>();
     Context context;
     mainActivityAdapter adp;
-//    IProductDAO daoc;
-//    IProductDAO daof;
-    public static ArrayList<course> courseList=new ArrayList<>();
     Logger logger;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context=getApplicationContext();
+        context = getApplicationContext();
         logger = Logger.getLogger("MainActivity");
-
-
-
-
-        Button viewTimeTable = (Button) findViewById(R.id.TTButton);
-        viewTimeTable.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-//              Intent intent = new Intent(context, CartActivity.class);
-//
-//                startActivity(intent);
-            }
-        });
-        Button addCourse = (Button) findViewById(R.id.addCourseButton);
-        addCourse.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-              Intent intent = new Intent(context, addCourseActivity.class);
-                startActivity(intent);
-            }
-        });
-        if (courseList.isEmpty()) {
-            AddInitialEntriesInDB();
-        }
-
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adp = new mainActivityAdapter(this, courseList);
         recyclerView.setAdapter(adp);
 
+        Button addCourse = findViewById(R.id.addCourseButton);
+        addCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, addCourseActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        Button tasksDue = findViewById(R.id.tasksDueButton);
+        tasksDue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, taskViewActivity.class);
+                startActivity(intent);
+            }
+        });
+        addCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, addCourseActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        Intent intent = getIntent();
+        if (intent.hasExtra("addCourseCheck")) {
+            String cname = intent.getStringExtra("courseName");
+            String cid = intent.getStringExtra("courseId");
+            String cr = intent.getStringExtra("courseRoom");
+            String cstime = intent.getStringExtra("courseSTime");
+            String cetime = intent.getStringExtra("courseETime");
+            int ncid = Integer.parseInt(cid);
+            int ncr = Integer.parseInt(cr);
+            Boolean found = false;
+            for (course c : courseList
+            ) {
+                if (c.getCourseId() == ncid){
+                    found = true;
+                }
+            }
+            if (!found) {
+                courseList.add(new course(ncid,ncr,cname,cstime,cetime));
+            }
+            else{
+                Toast toast=Toast. makeText(getApplicationContext(),"course with same courseID already exists",Toast. LENGTH_LONG);
+                toast. show();
+            }
+            adp.notifyDataSetChanged();
+
+        } else if (intent.hasExtra("editCourseCheck")) {
+            String cname = intent.getStringExtra("courseName");
+            String cid = intent.getStringExtra("courseId");
+            String cr = intent.getStringExtra("courseRoom");
+            String cstime = intent.getStringExtra("courseSTime");
+            String cetime = intent.getStringExtra("courseETime");
+            int ncid = Integer.parseInt(cid);
+            int ncr = Integer.parseInt(cr);
+            for (course course : courseList) {
+                if (course.getCourseId() == ncid) {
+                    course.setCourseName(cname);
+                    course.setRoomNumber(ncr);
+                    course.setCourseSTime(cstime);
+                    course.setCourseETime(cetime);
+                }
+            }
+            adp.notifyDataSetChanged();
+        } else if (intent.hasExtra("deleteCourseCheck")) {
+            String cid = intent.getStringExtra("courseId");
+            int ncid = Integer.parseInt(cid);
+            courseList.removeIf(course -> course.getCourseId() == ncid);
+            adp.notifyDataSetChanged();
+        }
     }
+
     private void AddInitialEntriesInDB() {
         try {
-            courseList.add(new course(1, 400, "Computer Networks","1pm","2pm"));
+            courseList.add(new course(1, 400, "Computer Networks", "1pm", "2pm"));
 
 //            courseList.add(new product(" Badminton Racket", 1000, R.drawable.racket, 10));
 //            courseList.add(new product("Cricket Helmet", 4000, R.drawable.crickethelmet, 10));

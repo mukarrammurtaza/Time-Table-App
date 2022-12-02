@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.project.R;
-import com.example.project.course;
 
 import java.util.List;
 
@@ -20,9 +17,9 @@ public class mainActivityAdapter extends RecyclerView.Adapter<mainActivityAdapte
     List<course> courseList;
     private Context context;
 
-    public mainActivityAdapter(Context context, List<course> productList) {
+    public mainActivityAdapter(Context context, List<course> courseList) {
         this.context = context;
-        this.courseList = productList;
+        this.courseList = courseList;
 
     }
 
@@ -42,31 +39,26 @@ public class mainActivityAdapter extends RecyclerView.Adapter<mainActivityAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
         holder.courseNameView.setText(courseList.get(position).getCourseName());
+        holder.courseIdView.setText(String.valueOf(courseList.get(position).getCourseId()));
         holder.courseRoomView.setText(String.valueOf(courseList.get(position).getRoomNumber()));
-        holder.courseTimeView.setText( courseList.get(position).getCourseSTime());
-
+        holder.courseSTimeView.setText( courseList.get(position).getCourseSTime());
+        holder.courseETimeView.setText( courseList.get(position).getCourseETime());
         holder.getItemView().setOnClickListener(new View.OnClickListener() {
-
-                                                    @Override
-                                                    public void onClick(View v) {
-
-//                                                        Intent intent = new Intent(context, ProductActivity.class);
-//                                                        // intent.putExtra()
-//                                                        intent.putExtra("name", holder.getNameView().getText().toString());
-//                                                        intent.putExtra("price", holder.priceView.getText().toString());
-//                                                        //intent.putExtra("rating", holder.ratingView.getText().toString());
-//                                                        intent.putExtra("image", (productList.get(position).getImage()));
-//
-//                                                        //quantity
-//                                                        context.startActivity(intent);
-                                                    }
-
-                                                }
-
-        );
-
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context, editCourseActivity.class);
+                intent.putExtra("courseName", holder.courseNameView.getText().toString());
+                intent.putExtra("courseId", String.valueOf(holder.courseIdView.getText().toString()));
+                intent.putExtra("courseRoom", String.valueOf( holder.courseRoomView.getText()));
+                intent.putExtra("courseSTime", holder.courseSTimeView.getText().toString());
+                intent.putExtra("courseETime", holder.courseETimeView.getText().toString());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -79,39 +71,37 @@ public class mainActivityAdapter extends RecyclerView.Adapter<mainActivityAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final View itemView;
-
-
-
         private final TextView courseNameView;
+        private final TextView courseIdView;
         private final TextView courseRoomView;
-        private final TextView courseTimeView;
+        private final TextView courseSTimeView;
+        private final TextView courseETimeView;
 
 
         public ViewHolder(View view) {
             super(view);
             itemView = view;
             courseNameView = view.findViewById(R.id.courseName);
+            courseIdView = view.findViewById(R.id.courseID);
             courseRoomView =  view.findViewById(R.id.courseRoom);
-            courseTimeView =  view.findViewById(R.id.courseTime);
-
-
+            courseSTimeView =  view.findViewById(R.id.courseSTime);
+            courseETimeView =  view.findViewById(R.id.courseETime);
         }
+
         public View getItemView() {
             return itemView;
         }
-
         public TextView getCourseNameView() {
             return courseNameView;
         }
-
         public TextView getCourseRoomView() {
             return courseRoomView;
         }
-
-        public TextView getCourseTimeView() {
-            return courseTimeView;
+        public TextView getCourseSTimeView() {
+            return courseSTimeView;
         }
-
+        public TextView getCourseETimeView() {return courseETimeView; }
+        public TextView getCourseIdView() {return courseIdView;}
     }
 }
 
