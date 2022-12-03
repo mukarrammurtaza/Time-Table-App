@@ -11,31 +11,39 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class addTaskActivity extends AppCompatActivity {
     Context context;
-    public static ArrayList<task> taskList = new ArrayList<>();
+    public static List<task> taskList;
+    taskDatabase taskDB;
+    Logger logger;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context=getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addtask);
+        logger = Logger.getLogger("TaskActivity");
         EditText courseName = findViewById(R.id.courseName);
         EditText courseID = findViewById(R.id.courseID);
         EditText taskTitle = findViewById(R.id.taskTitle);
         EditText dueDate = findViewById(R.id.dueDate);
         EditText dueTime = findViewById(R.id.dueTime);
-
         Intent intent = getIntent();
         String cname = intent.getStringExtra("courseName");
         String cid = intent.getStringExtra("courseId");
-
-
-
-
         courseName.setText(cname);
         courseID.setText(cid);
         Button saveButton=findViewById(R.id.save);
+
+        taskDB=taskDatabase.getInstance(this);
+        if(taskList==null) {
+            taskList = taskDB.taskDAO().getAllTasks();
+            logger.log(Level.INFO, "retrieving tasks from DB");
+        }
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +55,8 @@ public class addTaskActivity extends AppCompatActivity {
                 int ncid = Integer.parseInt(cid);
                 task task =new task(ncid,cName,taskT,dd,dt);
                 taskList.add(task);
+                taskDB.taskDAO().insertTask(task);
+                logger.log(Level.INFO, "task added to DB");
                 Toast toast=Toast. makeText(getApplicationContext(),"task added successfully",Toast. LENGTH_SHORT);
                 toast. show();
                 Intent intent = new Intent(context, MainActivity.class);
@@ -54,7 +64,7 @@ public class addTaskActivity extends AppCompatActivity {
             }
         });
     }
-    public  ArrayList<task> getTaskList(){
+    public  List<task> getTaskList(){
         return taskList;
     }
 }

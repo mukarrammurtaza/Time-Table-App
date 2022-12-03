@@ -148,11 +148,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
-            android:text=" go to home"
+            android:text=" delete task"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/home"
+            android:id="@+id/deleteTask"
+
             />
 
 

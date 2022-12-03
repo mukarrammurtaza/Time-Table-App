@@ -1,13 +1,24 @@
 package com.example.project;
 
-import java.sql.Time;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+import java.sql.Time;
+@Entity(tableName="course")
 public class course {
+    @PrimaryKey(autoGenerate = true)
     int courseId;
+    @ColumnInfo(name ="roomNumber")
     int roomNumber;
+    @ColumnInfo(name ="courseName")
     String courseName;
+    @ColumnInfo(name ="courseStartTime")
     String courseSTime;
+    @ColumnInfo(name ="courseEndTime")
     String courseETime;
+
 
     public course(int courseId, int roomNumber, String courseName, String courseSTime,String courseETime) {
         this.courseId = courseId;
